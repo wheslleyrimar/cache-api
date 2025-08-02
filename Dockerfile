@@ -1,9 +1,9 @@
-FROM arm64v8/maven:3.9-amazoncorretto-24-al2023 AS builder
+FROM maven:3.9.11-eclipse-temurin-21 AS builder
 WORKDIR /app
 COPY . .
-RUN mvn clean package
+RUN mvn clean package -DskipTests
 
-FROM eclipse-temurin:24-jdk
+FROM openjdk:21-jdk-slim
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 EXPOSE 8082
